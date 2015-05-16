@@ -80,11 +80,12 @@ class OptimizeCommand extends Command {
 	{
 		$this->registerClassPreloaderCommand();
 
-		$this->callSilent('compile', array(
+		$this->callSilent('compile', [
 			'--config' => implode(',', $this->getClassFiles()),
 			'--output' => $this->laravel->getCachedCompilePath(),
 			'--strip_comments' => 1,
-		));
+			'--skip_dir_file' => $this->option('skip-dir-file'),
+		]);
 	}
 
 	/**
@@ -127,8 +128,8 @@ class OptimizeCommand extends Command {
 	{
 		return array(
 			array('force', null, InputOption::VALUE_NONE, 'Force the compiled class file to be written.'),
-
 			array('psr', null, InputOption::VALUE_NONE, 'Do not optimize Composer dump-autoload.'),
+			array('skip-dir-file', null, InputOption::VALUE_NONE, 'Skip files with __DIR__ or __FILE__ to make the cache portable'),
 		);
 	}
 
